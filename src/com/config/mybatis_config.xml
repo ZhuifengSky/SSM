@@ -7,8 +7,14 @@
      <!--定义下别名  -->
      <typeAlias type="com.main.user.model.User" alias="user"/>
       <typeAlias type="com.main.user.bean.UserBean" alias="userQueryBean"/>  
+      <typeAlias alias="Page" type="xx" /><!--分页  -->
   </typeAliases>
+  <!-- 插件配置 -->
+	<plugins>
+		<plugin interceptor="xx" />
+    </plugins>
   <mappers>
     <mapper resource="com/config/mappers/userMapper.xml"/>
   </mappers>
+  
 </configuration>
