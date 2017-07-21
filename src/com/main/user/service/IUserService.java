@@ -2,6 +2,7 @@ package com.main.user.service;
 
 import java.util.List;
 
+import com.main.common.bean.Page;
 import com.main.common.bean.PageInfo;
 import com.main.user.bean.UserBean;
 import com.main.user.model.User;
@@ -29,5 +30,13 @@ public interface IUserService {
 	 * @param queryBean
 	 * @return
 	 */
-	public PageInfo<User> findPage(PageInfo<User> page,User queryBean);
+	public PageInfo<User> findPage(User queryBean);
+	
+	/**
+	 * ·ÖÒ³·½Ê½2
+	 * @param page
+	 * @param queryBean
+	 * @return
+	 */
+	public Page<User> findPage(Page<User> page,User queryBean);
 }

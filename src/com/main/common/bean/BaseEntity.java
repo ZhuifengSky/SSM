@@ -23,7 +23,8 @@ public class BaseEntity<T> implements Serializable {
 	 * 当前用户
 	 */
 	protected User currentUser;
-	protected PageInfo<T> page;
+	protected PageInfo<T> page2;
+	protected Page<T> page;
 	protected String remarks; // 备注
 	protected User createBy; // 创建者
 	protected Date createDate; // 创建日期
@@ -43,12 +44,7 @@ public class BaseEntity<T> implements Serializable {
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
 	}
-	public PageInfo<T> getPage() {
-		return page;
-	}
-	public void setPage(PageInfo<T> page) {
-		this.page = page;
-	}
+	
 	public String getRemarks() {
 		return remarks;
 	}
@@ -91,6 +87,19 @@ public class BaseEntity<T> implements Serializable {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-
+	public PageInfo<T> getPage2() {
+		return page2;
+	}
+	public void setPage2(PageInfo<T> page2) {
+		this.page2 = page2;
+	}
+	public Page<T> getPage() {
+		return page;
+	}
+	public void setPage(Page<T> page) {
+		this.page = page;
+	}
+	
+	
 	
 }

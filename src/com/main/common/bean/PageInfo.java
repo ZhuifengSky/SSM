@@ -3,13 +3,7 @@ package com.main.common.bean;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.github.pagehelper.Page;
-import com.main.common.util.CookieUtils;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class PageInfo<T> implements Serializable {
@@ -65,48 +59,6 @@ public class PageInfo<T> implements Serializable {
         this(list, 8);
     }
     
-    /**
-	 * 构造方法
-	 * @param request 传递 repage 参数，来记住页码
-	 * @param response 用于设置 Cookie，记住页码
-	 */
-	public PageInfo(HttpServletRequest request, HttpServletResponse response){
-		this(request, response, -2);
-	}
-	
-	
-	/**
-	 * 构造方法
-	 * @param request 传递 repage 参数，来记住页码
-	 * @param response 用于设置 Cookie，记住页码
-	 * @param defaultPageSize 默认分页大小，如果传递 -1 则为不分页，返回所有数据
-	 */
-	public PageInfo(HttpServletRequest request, HttpServletResponse response, int defaultPageSize){
-		// 设置页码参数（传递repage参数，来记住页码）
-		String no = request.getParameter("pageNo");
-		if (StringUtils.isNumeric(no)){
-			CookieUtils.setCookie(response, "pageNo", no);
-			this.setPageNum(Integer.parseInt(no));
-		}else if (request.getParameter("repage")!=null){
-			no = CookieUtils.getCookie(request, "pageNo");
-			if (StringUtils.isNumeric(no)){
-				this.setPageNum(Integer.parseInt(no));
-			}
-		}
-		// 设置页面大小参数（传递repage参数，来记住页码大小）
-		String size = request.getParameter("pageSize");
-		if (StringUtils.isNumeric(size)){
-			CookieUtils.setCookie(response, "pageSize", size);
-			this.setPageSize(Integer.parseInt(size));
-		}else if (request.getParameter("repage")!=null){
-			no = CookieUtils.getCookie(request, "pageSize");
-			if (StringUtils.isNumeric(size)){
-				this.setPageSize(Integer.parseInt(size));
-			}
-		}else if (defaultPageSize != -2){
-			this.pageSize = defaultPageSize;
-		}
-	}
     /**
      * 包装Page对象
      *

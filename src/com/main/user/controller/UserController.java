@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.main.common.bean.Page;
 import com.main.common.bean.PageInfo;
 import com.main.user.bean.UserBean;
 import com.main.user.model.User;
@@ -42,13 +43,28 @@ public class UserController {
 
 	@RequestMapping("/findPage.do")
 	public String findPage(HttpServletRequest request, HttpServletResponse response,User queryBean,ModelMap map){
-		PageInfo<User> page = userServiceImpl.findPage(new PageInfo<User>(request, response),queryBean);
+		PageInfo<User> page = userServiceImpl.findPage(queryBean);
 		map.put("page", page);
 		map.put("queryBean", queryBean);
 		return "jsp/listPageUser";
 	}
 
-
+	
+	/**
+	 * 第二种分页方式
+	 * @param request
+	 * @param response
+	 * @param queryBean
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("/findPage2.do")
+	public String findPage2(HttpServletRequest request, HttpServletResponse response,User queryBean,ModelMap map){
+		Page<User> page = userServiceImpl.findPage(new Page<User>(request, response),queryBean);
+		map.put("page", page);
+		map.put("queryBean", queryBean);
+		return "jsp/listPageUser2";
+	}
 
 	
 

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
+import com.main.common.bean.Page;
 import com.main.common.bean.PageInfo;
 import com.main.common.bean.PaginationContext;
 import com.main.user.bean.UserBean;
@@ -35,11 +36,18 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public PageInfo<User> findPage(PageInfo<User> page,User queryBean) {
-		queryBean.setPage(page);
+	public PageInfo<User> findPage(User queryBean) {
 		PageHelper.startPage(PaginationContext.getPageNum(), PaginationContext.getPageSize());
         List<User> list = userDaoImpl.findList(queryBean);
         return new PageInfo<User>(list);
+	}
+
+	@Override
+	public Page<User> findPage(Page<User> page, User queryBean) {
+		queryBean.setPage(page);
+		List<User> list = userDaoImpl.findList(queryBean);
+		page.setList(list);
+		return page;
 	}
 
 }
