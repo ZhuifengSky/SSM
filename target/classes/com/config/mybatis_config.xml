@@ -3,18 +3,29 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-  <typeAliases>
-     <!--定义下别名  -->
+  <!-- <typeAliases>
+     定义下别名 
      <typeAlias type="com.main.user.model.User" alias="user"/>
       <typeAlias type="com.main.user.bean.UserBean" alias="userQueryBean"/>  
-      <typeAlias alias="Page" type="xx" /><!--分页  -->
+      <typeAlias alias="Page" type="xx" />分页 
   </typeAliases>
-  <!-- 插件配置 -->
+  插件配置
 	<plugins>
 		<plugin interceptor="xx" />
     </plugins>
   <mappers>
     <mapper resource="com/config/mappers/userMapper.xml"/>
-  </mappers>
+  </mappers> -->
+  
+  <!-- 类型别名 -->
+	<typeAliases>
+		<typeAlias alias="Page" type="com.main.common.bean.Page" /><!--分页  -->
+	</typeAliases>
+	
+	<!-- 插件配置 -->
+	<plugins>
+		<plugin interceptor="com.main.common.persistence.PaginationInterceptor" />
+    </plugins>
+  
   
 </configuration>

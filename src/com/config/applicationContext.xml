@@ -48,7 +48,7 @@
 	<!-- 定义Mapper文件的扫描位置或者直接引用Mybatis的配置文件，在Mybitis的配置文件中配置 -->	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<!-- <property name="configLocation" value="classpath:com/config/mybatis_config.xml"/>  --> 
+		<property name="configLocation" value="classpath:com/config/mybatis_config.xml"/>
 		<property name="mapperLocations" value="classpath:com/config/mappers/*.xml"/>
 		<property name="plugins">
 			<array>
@@ -63,6 +63,11 @@
 		</property>
 	
 	</bean>
+	<!--自动映射不用再写dao的实现类  -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+        <property name="basePackage" value="com.main.*.dao" />  
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />  
+    </bean>  
 
 	<!-- 定义事务开启的方法 -->
 	<tx:advice id="txAdvice" transaction-manager="txManager">
