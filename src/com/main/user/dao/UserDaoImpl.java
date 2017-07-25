@@ -15,8 +15,6 @@ import com.main.user.model.User;
  * 
  * <p>Title:   UserDaoImpl.java</p>
  * <p>Description:  UserDao实现类 </p>
- * <p>Company:   www.edu24ol.com</p>
- * @author   pc-zw
  * @date     2015年8月20日下午6:48:54
  * @version  1.0
  */
