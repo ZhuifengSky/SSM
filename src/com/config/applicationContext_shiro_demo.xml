@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+	default-lazy-init="true">
+
+	<description>Shiro Configuration</description>
+	<!-- shiroFilter工厂 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- 构建securityManager环境 -->
+		<property name="securityManager" ref="securityManager" />
+		<!-- 用户没有认证通过返回的地址 -->
+		<property name="loginUrl" value="/login.action" />
+		<!-- 拦截成功地址 -->
+		<property name="successUrl" value="/index.action" />
+		<!-- 没有权限返回的地址 （拒绝访问路径） -->
+		<property name="unauthorizedUrl" value="/refused.action" />
+		<property name="filterChainDefinitions">
+			<value>
+				/index.action=authc
+				/logout.action=logout
+				/manager.action=perms[user:query]
+			</value>
+		</property>
+	</bean>
+	<!-- securityManager -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!--调用自定义realm -->
+		<property name="realm" ref="myRealm" />
+	</bean>
+	<bean id="myRealm" class="com.floder.shiro.MyRealm"></bean>
+</beans>
