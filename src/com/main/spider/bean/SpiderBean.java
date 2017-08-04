@@ -1,9 +1,10 @@
-package com.main.spider.model;
+package com.main.spider.bean;
 
-public class Spider {
+public class SpiderBean {
 
 	private String targetUrl;   //目标URl
 	private String targetPath;  //目标路径 html docment路径
+	private String secondTargetPath;  //二级目标路径 html docment路径
 	private String encodingType; //编码类型
 	public String getTargetUrl() {
 		return targetUrl;
@@ -22,6 +23,12 @@ public class Spider {
 	}
 	public void setEncodingType(String encodingType) {
 		this.encodingType = encodingType;
+	}
+	public String getSecondTargetPath() {
+		return secondTargetPath;
+	}
+	public void setSecondTargetPath(String secondTargetPath) {
+		this.secondTargetPath = secondTargetPath;
 	}
 	
 	

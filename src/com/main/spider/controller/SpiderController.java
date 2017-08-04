@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.main.spider.bean.ContentListBean;
-import com.main.spider.model.Spider;
+import com.main.spider.bean.SpiderBean;
+import com.main.spider.model.Novel;
 import com.main.spider.service.ISpiderService;
 
 @Controller
@@ -30,7 +31,7 @@ public class SpiderController {
 	 * @return
 	 */
 	@RequestMapping(value="/getContent",produces = "application/json;charset=UTF-8",method=RequestMethod.POST)
-	public String getTargetContent(Spider spider,HttpServletRequest request, HttpServletResponse response,Model model){
+	public String getTargetContent(SpiderBean spider,HttpServletRequest request, HttpServletResponse response,Model model){
 		spiderServiceImpl.getTargetContent(spider);
 		return null;		
 	}
@@ -45,9 +46,26 @@ public class SpiderController {
 	 * @return
 	 */
 	@RequestMapping(value="/getContentBySoup",method=RequestMethod.POST)
-	public String getContentBySoup(Spider spider,HttpServletRequest request, HttpServletResponse response,Model model){
+	public String getContentBySoup(SpiderBean spider,HttpServletRequest request, HttpServletResponse response,Model model){
 		List<ContentListBean> beans = spiderServiceImpl.getTargetContentByJsoup(spider);
 		model.addAttribute("beans", beans);
 		return "/jsp/spider/contentList";		
+	}
+	
+	
+	
+	/**
+	 * 爬小说列表
+	 * @param novel
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/spiderNovel",method=RequestMethod.POST)
+	public String spiderNovel(Novel novel,HttpServletRequest request, HttpServletResponse response,Model model){
+		List<Novel> novels = spiderServiceImpl.spiderNovel(novel);
+		model.addAttribute("novels", novels);
+		return "/jsp/spider/novelList";		
 	}
 }

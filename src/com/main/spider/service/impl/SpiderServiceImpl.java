@@ -2,6 +2,7 @@ package com.main.spider.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -19,14 +20,16 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import com.main.spider.bean.ContentListBean;
-import com.main.spider.model.Spider;
+import com.main.spider.bean.SpiderBean;
+import com.main.spider.model.Novel;
 import com.main.spider.service.ISpiderService;
+import com.main.user.model.User;
 
 @Service
 public class SpiderServiceImpl implements ISpiderService {
 
 	@Override
-	public List<ContentListBean> getTargetContent(Spider spider) {
+	public List<ContentListBean> getTargetContent(SpiderBean spider) {
 		if (spider != null) {
 			if (spider.getEncodingType()==null) {
 				spider.setEncodingType("utf-8");
@@ -70,7 +73,7 @@ public class SpiderServiceImpl implements ISpiderService {
 	}
 
 	@Override
-	public List<ContentListBean> getTargetContentByJsoup(Spider spider) {
+	public List<ContentListBean> getTargetContentByJsoup(SpiderBean spider) {
 		List<ContentListBean> contentBeans = new ArrayList<ContentListBean>();
 		Connection conn = Jsoup.connect(spider.getTargetUrl());
 		try {
@@ -87,6 +90,34 @@ public class SpiderServiceImpl implements ISpiderService {
 			e.printStackTrace();
 		} 
 		return contentBeans;
+	}
+
+	@Override
+	public List<Novel> spiderNovel(Novel novelBean) {
+		List<Novel> novels = new ArrayList<Novel>();
+		User addUser = new User();
+		addUser.setId("1");
+		Connection conn = Jsoup.connect(novelBean.getTargetUrl());
+		try {
+			// 10秒超时时间,发起get请求，也可以是post
+            Document document = conn.timeout(10000).get();
+            Elements elements = document.select(novelBean.getTargetPath());
+            for (Element element : elements) {
+            	Novel novel = new Novel();
+            	novel.setTitle(element.select(novelBean.getTitle()).text());
+            	novel.setAuthor(element.select(novelBean.getAuthor()).text());
+            	novel.setCoverImage(element.select(novelBean.getCoverImage()).attr("src"));
+            	novel.setDescription(element.select(novelBean.getDescription()).text());
+            	novel.setType(element.select(novelBean.getType()).text());
+            	novel.setStatus(element.select(novelBean.getStatus()).text());
+            	novel.setCreateDate(new Date());
+				novel.setCreateBy(addUser);
+				novels.add(novel);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		return novels;
 	}
 
 }
