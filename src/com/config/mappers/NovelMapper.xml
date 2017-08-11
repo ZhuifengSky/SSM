@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.main.spider.dao.INovelDao">    
+	<resultMap type="com.main.spider.model.Novel" id="novelMap">
+		<id column="id" property="id"/>
+		<result column="title" property="title"/>
+		<result column="type" property="type"/>
+		<result column="status" property="status"/>
+		<result column="author" property="author"/>
+		<result column="cover_image" property="coverImage"/>
+		<result column="description" property="description" typeHandler="com.main.common.util.MyBlobTypeHandler"/>
+		<result column="create_date" property="createDate"/>
+	</resultMap>	
+
+   <insert id="insertBatch" parameterType="java.util.List">
+       insert into t_novel(title,type,status,author,cover_image,description,create_date)
+       values
+            <foreach collection ="list" item="novel" index= "index" separator =",">
+                  (#{novel.title},#{novel.type},#{novel.status},#{novel.author},#{novel.coverImage},#{novel.description},#{novel.createDate})
+            </foreach>
+   </insert>
+   
+    <insert id="insert" parameterType="com.main.spider.model.Novel" keyProperty="id" useGeneratedKeys="true">
+       insert into t_novel(title,type,status,author,cover_image,description,create_date)
+       values
+       (#{title},#{type},#{status},#{author},#{coverImage},#{description},#{createDate})
+   </insert>
+
+  <select id="findList" parameterType="com.main.spider.model.Novel" resultMap="novelMap">
+      select 
+         id,title,type,status,author,cover_image as coverImage,description,create_date 
+      from 
+         t_novel
+      <where>
+          <if test="title!=null and title!=''">
+              and title like CONCAT('%',#{title},'%')   
+          </if>
+      </where> 
+  </select>
+
+  <select id="getNovel" parameterType="java.lang.Integer" resultMap="novelMap">
+  	 select 
+         id,title,type,status,author,cover_image as coverImage,description,create_date 
+      from 
+         t_novel
+      where id=#{novelId}
+  </select>
+
+</mapper>

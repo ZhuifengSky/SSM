@@ -1,11 +1,8 @@
 package com.main.common.bean;
 
-public class BaseSpiderEntity extends BaseEntity<BaseSpiderEntity> {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class BaseSpiderEntity {
+	
+	private String baseUrl;   //目标URl
 	private String targetUrl;   //目标URl
 	private String encodingType; //编码类型
 	private String targetPath;  //目标路径 html docment路径
@@ -27,6 +24,12 @@ public class BaseSpiderEntity extends BaseEntity<BaseSpiderEntity> {
 	}
 	public void setTargetPath(String targetPath) {
 		this.targetPath = targetPath;
+	}
+	public String getBaseUrl() {
+		return baseUrl;
+	}
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
 	}
 	
 	

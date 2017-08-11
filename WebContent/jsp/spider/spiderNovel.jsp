@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>小说爬虫</title>
+<title>小说抓取</title>
 </head>
 <body>
    <form action="/ssm/spider/spiderNovel" method="post">
@@ -63,6 +63,7 @@
                         <option value="utf-8">utf-8</option>
                      </select></td>
           	  </tr>
+          	  
           </tbody>
           <tfoot>
               <tr>

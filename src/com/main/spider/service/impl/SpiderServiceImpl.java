@@ -1,6 +1,8 @@
 package com.main.spider.service.impl;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,10 +19,15 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.main.common.bean.Page;
+import com.main.common.util.DateUtil;
 import com.main.spider.bean.ContentListBean;
+import com.main.spider.bean.NovelBean;
 import com.main.spider.bean.SpiderBean;
+import com.main.spider.dao.INovelDao;
 import com.main.spider.model.Novel;
 import com.main.spider.service.ISpiderService;
 import com.main.user.model.User;
@@ -28,6 +35,9 @@ import com.main.user.model.User;
 @Service
 public class SpiderServiceImpl implements ISpiderService {
 
+	@Autowired
+	private INovelDao novelDaoImpl;
+	
 	@Override
 	public List<ContentListBean> getTargetContent(SpiderBean spider) {
 		if (spider != null) {
@@ -92,8 +102,8 @@ public class SpiderServiceImpl implements ISpiderService {
 		return contentBeans;
 	}
 
-	@Override
-	public List<Novel> spiderNovel(Novel novelBean) {
+	
+	private List<Novel> spiderNovel(NovelBean novelBean) throws ParseException {
 		List<Novel> novels = new ArrayList<Novel>();
 		User addUser = new User();
 		addUser.setId("1");
@@ -102,6 +112,7 @@ public class SpiderServiceImpl implements ISpiderService {
 			// 10秒超时时间,发起get请求，也可以是post
             Document document = conn.timeout(10000).get();
             Elements elements = document.select(novelBean.getTargetPath());
+            SimpleDateFormat sf = new SimpleDateFormat(DateUtil.BOTH);
             for (Element element : elements) {
             	Novel novel = new Novel();
             	novel.setTitle(element.select(novelBean.getTitle()).text());
@@ -110,7 +121,7 @@ public class SpiderServiceImpl implements ISpiderService {
             	novel.setDescription(element.select(novelBean.getDescription()).text());
             	novel.setType(element.select(novelBean.getType()).text());
             	novel.setStatus(element.select(novelBean.getStatus()).text());
-            	novel.setCreateDate(new Date());
+            	novel.setCreateDate(sf.parse(sf.format(new Date())));
 				novel.setCreateBy(addUser);
 				novels.add(novel);
 			}
@@ -118,6 +129,24 @@ public class SpiderServiceImpl implements ISpiderService {
 			e.printStackTrace();
 		} 
 		return novels;
+	}
+
+	@Override
+	public Page<Novel> findPage(Page<Novel> page, Novel queryBean) {
+		queryBean.setPage(page);
+		List<Novel> novels = novelDaoImpl.findList(queryBean);
+		page.setList(novels);
+		return page;
+	}
+
+	@Override
+	public int saveNovels(NovelBean spider) throws ParseException {
+		List<Novel> novels = spiderNovel(spider);
+		if (novels!=null && novels.size()>0) {
+			return novelDaoImpl.insertBatch(novels);
+		}
+		return 0;
+		
 	}
 
 }

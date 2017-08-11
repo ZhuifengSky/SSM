@@ -51,7 +51,9 @@
         <junit.version>4.12</junit.version>
         <httpclient.version>4.5.2</httpclient.version>
         <!--Java 的HTML解析器  -->
-        <jsoup.version>1.10.3</jsoup.version>        
+        <jsoup.version>1.10.3</jsoup.version>
+        <jackson.version>2.9.0</jackson.version>
+        <zxing.version>3.3.0</zxing.version>        
 	</properties>
 	<dependencies>
 		<!-- Spring 配置 -->
@@ -284,6 +286,56 @@
 		    <artifactId>jsoup</artifactId>
 		    <version>${jsoup.version}</version>
 	    </dependency>
+		
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		    <version>1.1.0.Final</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.codehaus.jackson</groupId>
+		    <artifactId>jackson-mapper-asl</artifactId>
+		    <version>1.5.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-annotations</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+	
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.fasterxml.jackson.module</groupId>
+		    <artifactId>jackson-module-jaxb-annotations</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		    <version>${zxing.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>javase</artifactId>
+		    <version>${zxing.version}</version>
+		</dependency>
+		
+  
+		
 		
 	</dependencies>
  	  

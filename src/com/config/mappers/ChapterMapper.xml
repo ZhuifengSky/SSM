@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.main.spider.dao.IChapterDao">    
+	<resultMap type="com.main.spider.model.Chapter" id="chapterMap">
+		<id column="id" property="id"/>
+		<result column="novel_id" property="novelId"/>
+		<result column="title" property="title"/>
+		<result column="description" property="description"/>
+		<result column="content" property="content" typeHandler="com.main.common.util.MyBlobTypeHandler"/>
+	</resultMap>	
+
+   <insert id="insertBatch" parameterType="java.util.List">
+       insert into t_chapter(novel_id,title,description,content)
+       values
+            <foreach collection ="list" item="chapter" index= "index" separator =",">
+                  (#{chapter.novelId},#{chapter.title},#{chapter.description},#{chapter.content})
+            </foreach>
+   </insert>
+
+  <select id="findList" parameterType="com.main.spider.model.Chapter" resultMap="chapterMap">
+      select 
+         id,title,description 
+      from 
+         t_chapter
+      <where>
+          <if test="novelId!=null and novelId!=''">
+              and novel_id =#{novelId}   
+          </if>
+          <if test="title!=null and title!=''">
+              and title like concat('%',#{title},'%')   
+          </if>
+      </where>     
+  </select>
+	
+  <select id="getChapterDetail" parameterType="java.lang.Integer" resultMap="chapterMap">
+      select 
+         id,novel_id,title,description,content 
+      from 
+         t_chapter
+      where id =#{chapterId}
+  </select>
+  
+  <select id="getLastNextChapter" resultType="java.lang.Integer" parameterType="com.main.spider.model.Chapter">
+      SELECT id FROM t_chapter t 
+      <where>
+         <if test="flag=='last'">
+         	 and t.id &lt; #{id}
+         </if>
+      	 <if test="flag=='next'">
+         	and t.id &gt; #{id}
+         </if>
+            and t.novel_id =#{novelId} 
+      </where>      
+         LIMIT 1
+  </select>
+   
+
+</mapper>
