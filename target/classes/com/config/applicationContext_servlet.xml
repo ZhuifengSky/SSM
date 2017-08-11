@@ -26,6 +26,13 @@
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
 	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" /> -->
     <!-- 静态资源映射 -->
+    	<!-- 拦截器配置 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />			
+			<bean class="com.main.common.interceptor.LogInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
     <!--方法一：配置 mvc:resources -->
     <mvc:resources mapping="/static/js/**" location="/static/js/"/>  
     <mvc:resources mapping="/static/styles/**" location="/static/styles/"/>  
